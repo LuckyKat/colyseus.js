@@ -1,12 +1,18 @@
-import { ITransport, ITransportEventMap } from "./transport/ITransport";
+import { ITransport, ITransportEventMap, TransportOptions } from "./transport/ITransport";
 import { WebSocketTransport } from "./transport/WebSocketTransport";
+import { GeckosTransport } from "./transport/GeckosTransport";
+
 
 export class Connection implements ITransport {
     transport: ITransport;
     events: ITransportEventMap = {};
 
-    constructor() {
-        this.transport = new WebSocketTransport(this.events);
+    constructor(options: TransportOptions = { type: 'geckos' }) {
+        if (options && options.type === 'geckos') {
+            this.transport = new GeckosTransport(this.events, options);
+        } else {
+            this.transport = new WebSocketTransport(this.events, options);
+        }
     }
 
     send(data: ArrayBuffer | Array<number>): void {

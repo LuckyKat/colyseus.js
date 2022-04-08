@@ -1,5 +1,5 @@
 import NodeWebSocket from "ws";
-import { ITransport, ITransportEventMap } from "./ITransport";
+import { ITransport, ITransportEventMap, TransportOptions } from "./ITransport";
 
 const WebSocket = globalThis.WebSocket || NodeWebSocket;
 
@@ -7,7 +7,7 @@ export class WebSocketTransport implements ITransport {
     ws: WebSocket | NodeWebSocket;
     protocols?: string | string[];
 
-    constructor(public events: ITransportEventMap) {}
+    constructor(public events: ITransportEventMap, public options?: TransportOptions) {}
 
     public send(data: ArrayBuffer | Array<number>): void {
         if (data instanceof ArrayBuffer) {

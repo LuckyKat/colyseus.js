@@ -5,8 +5,17 @@ export interface ITransportEventMap {
     onerror?: ((ev: any) => any) | null;
 }
 
+export interface TransportOptions {
+    type?: string
+
+    // geckos
+    label?: string,
+    iceServers?: RTCIceServer[]
+    iceTransportPolicy?: RTCIceTransportPolicy
+}
+
 export interface ITransportConstructor {
-    new (events: ITransportEventMap): ITransport;
+    new (events: ITransportEventMap, options?: TransportOptions): ITransport;
 }
 
 export interface ITransport {

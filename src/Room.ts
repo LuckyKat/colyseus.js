@@ -1,5 +1,6 @@
 import * as msgpack from './msgpack';
 
+import {TransportOptions } from "./transport/ITransport";
 import { Connection } from './Connection';
 import { Serializer, getSerializer } from './serializer/Serializer';
 import { Protocol, utf8Read, utf8Length } from './Protocol';
@@ -59,8 +60,8 @@ export class Room<State= any> {
     // TODO: deprecate me on version 1.0
     get id() { return this.roomId; }
 
-    public connect(endpoint: string) {
-        this.connection = new Connection();
+    public connect(endpoint: string, options?: TransportOptions) {
+        this.connection = new Connection(options);
         this.connection.events.onmessage = this.onMessageCallback.bind(this);
         this.connection.events.onclose = (e: CloseEvent) => {
             if (!this.hasJoined) {
